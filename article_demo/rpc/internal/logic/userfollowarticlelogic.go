@@ -47,7 +47,7 @@ func (l *UserFollowArticleLogic) UserFollowArticle(in *article.UserFollowArticle
 				SubscriptionId: 0,
 			},
 		}
-	} else {
+	} else if findSubscriptionErr == model.ErrNotFound {
 		//  如果没有
 		//  查询用户是否存在
 		_, findUserErr := l.svcCtx.UsersModel.FindOne(l.ctx, int64(in.UserId))
@@ -76,6 +76,16 @@ func (l *UserFollowArticleLogic) UserFollowArticle(in *article.UserFollowArticle
 			Msg:  "success",
 			Data: &article.UserFollowArticle{
 				SubscriptionId: int32(insertSubscriptionData.SubscriptionId),
+			},
+		}
+	} else {
+		l.Logger.Error("FindOneByUserIdAndArticleIdError:", findSubscriptionErr.Error())
+		span.SetAttributes(attribute.String("FindOneByUserIdAndArticleIdError:", findSubscriptionErr.Error()), attribute.Bool("error", true))
+		resp = &article.UserFollowArticleResponse{
+			Code: 500,
+			Msg:  "FindOneByUserIdAndArticleIdError",
+			Data: &article.UserFollowArticle{
+				SubscriptionId: 0,
 			},
 		}
 	}
