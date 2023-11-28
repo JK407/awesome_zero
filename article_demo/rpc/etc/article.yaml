@@ -6,7 +6,7 @@ Etcd:
   Key: article.rpc
 
 
-DataSource: root:Password(l4m-?9C7@tcp(60.204.233.80:3306)/go_zero?charset=utf8&parseTime=True&loc=Local
+DataSource: 
 # mysql链接地址，满足 $user:$password@tcp($ip:$port)/$db?$queries 格式即可
 Cache:
   - Host: localhost:6379
