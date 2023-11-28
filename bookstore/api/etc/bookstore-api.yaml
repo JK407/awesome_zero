@@ -1,0 +1,26 @@
+Name: bookstore-api
+Host: 0.0.0.0
+Port: 8888
+
+Middlewares:
+  Metrics: true
+Telemetry:
+  Name: bookstore-api
+  Endpoint: http://127.0.0.1:14268/api/traces
+  Batcher: jaeger
+  Sampler: 1.0
+
+
+
+Add:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: add.rpc
+Check:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: check.rpc
+
+

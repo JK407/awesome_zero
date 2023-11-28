@@ -1,0 +1,67 @@
+syntax = "v1"
+
+info(
+	title: "article-api"
+	desc: "article_demo"
+	author: "JK407"
+	email: "1467511770@qq.com"
+)
+
+type (
+	UserFollowArticleRequest {
+		UserId    int `json:"user_id"`
+		ArticleId int `json:"article_id"`
+	}
+
+	UserUnFollowArticleRequest {
+		UserId    int `json:"user_id"`
+		ArticleId int `json:"article_id"`
+	}
+)
+
+type (
+	GetSubscribedArticle {
+		ArticleId      int    `json:"article_id"`
+		ArticleTitle   string `json:"article_title"`
+		ArticleContent string `json:"article_content"`
+		ArticleAuthor  string `json:"article_author"`
+	}
+	UserFollowArticle {
+		SubscriptionId int `json:"subscription_id"`
+	}
+
+	UserUnFollowArticle {
+		Result bool `json:"result"`
+	}
+)
+
+type (
+	GetSubscribedArticleResponse {
+		Code int                    `json:"code"`
+		Msg  string                 `json:"msg"`
+		Data []GetSubscribedArticle `json:"data"`
+	}
+
+	UserFollowArticleResponse {
+		Code int               `json:"code"`
+		Msg  string            `json:"msg"`
+		Data UserFollowArticle `json:"data"`
+	}
+
+	UserUnFollowArticleResponse {
+		Code int                 `json:"code"`
+		Msg  string              `json:"msg"`
+		Data UserUnFollowArticle `json:"data"`
+	}
+)
+
+service article-api {
+	@handler GetSubscribedArticle // 查询订阅最高的文章内容
+	get /article/get returns (GetSubscribedArticleResponse)
+
+	@handler UserFollowArticle // 用户订阅文章 返回订阅id
+	post /article/follow (UserFollowArticleRequest) returns (UserFollowArticleResponse)
+
+	@handler UserUnFollowArticle // 用户取消订阅文章 返回bool
+	post /article/unFollow (UserUnFollowArticleRequest) returns (UserUnFollowArticleResponse)
+}

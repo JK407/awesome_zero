@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+
+package article;
+option go_package="./article";
+
+message UserFollowArticleRequest {
+  int32 user_id = 1;
+  int32 article_id = 2;
+}
+
+message UserUnFollowArticleRequest {
+  int32 user_id = 1;
+  int32 article_id = 2;
+}
+
+message GetSubscribedArticle {
+  int32 article_id = 1;
+  string article_title = 2;
+  string article_content = 3;
+  string article_author = 4;
+}
+
+message UserFollowArticle {
+  int32 subscription_id = 1;
+}
+
+message UserUnFollowArticle {
+  bool result = 1;
+}
+
+message GetSubscribedArticleResponse {
+  int32 code = 1;
+  string msg = 2;
+  repeated GetSubscribedArticle data = 3;
+}
+
+message UserFollowArticleResponse {
+  int32 code = 1;
+  string msg = 2;
+  UserFollowArticle data = 3;
+}
+
+message UserUnFollowArticleResponse {
+  int32 code = 1;
+  string msg = 2;
+  UserUnFollowArticle data = 3;
+}
+
+// 定义 Empty 消息类型
+message Empty {}
+
+service ArticleService {
+  rpc GetSubscribedArticle(Empty) returns (GetSubscribedArticleResponse) {}
+  rpc UserFollowArticle(UserFollowArticleRequest) returns (UserFollowArticleResponse) {}
+  rpc UserUnFollowArticle(UserUnFollowArticleRequest) returns (UserUnFollowArticleResponse) {}
+}

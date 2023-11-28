@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info (
+	title: "user_api"
+	desc: "user_demo api"
+	author: "JK407"
+	email: "1467511770@qq.com"
+)
+
+type (
+	GetUserByIdRequest {
+		Id int64 `form:"id"`
+	}
+)
+
+type (
+	Response {
+		Code int         `json:"code"`
+		Msg  string      `json:"msg"`
+		Data interface{} `json:"data"`
+	}
+)
+
+service user-api {
+	@handler GetUserByIdHandler
+	get /user/getById (GetUserByIdRequest) returns(Response)
+}
